@@ -2,7 +2,6 @@ package com.bol.demo
 
 import com.bol.demo.game.Game
 import org.junit.Test
-import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
@@ -15,12 +14,13 @@ class GameTest {
     }
 
     @Test
-    fun `each player should have 7 pits`(){
+    fun `each player should have 6 small pits and one big pit`() {
         val players = Game().players
-        val numberOfPits = 7
+        val numberOfSmallPits = 6
 
         players.forEach { player ->
-            assertEquals(player.pits.size, numberOfPits)
+            assertEquals(numberOfSmallPits, player.smallPits.size)
+            assertNotNull(player.largePit)
         }
     }
 }
