@@ -4,6 +4,7 @@ import com.bol.demo.game.Game
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class GameTest {
     @Test
@@ -35,6 +36,7 @@ class GameTest {
             player.smallPits.forEach { pit ->
                 assertEquals(numberOfStones, pit.capacity)
             }
+            assertEquals(0, player.largePit.capacity)
         }
     }
 }
