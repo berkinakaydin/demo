@@ -5,6 +5,7 @@ import com.bol.demo.game.Player
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.SoftAssertions.assertSoftly
 import org.junit.Test
+import java.util.Collections.copy
 import kotlin.test.assertNotNull
 
 class GameTest {
@@ -59,20 +60,21 @@ class GameTest {
     @Test
     fun `when a player makes a move from first pit, stones should be sowed`(){
         val chosenPitIndex = 0
+        var currentPit = player1.smallPits[chosenPitIndex]
+        val numberOfStones = currentPit.capacity
 
-        val numberOfStones = player1.smallPits[chosenPitIndex].capacity
-        val oldStateOfSmallPits = player1.smallPits
-        val oldStateOfLargePit = player1.largePit
+        val oldStateOfPlayer = player1.copy()
+        var oldStateOfCurrentPit = oldStateOfPlayer.smallPits[chosenPitIndex]
 
         game.makeMove(chosenPitIndex)
         assertThat(player1.smallPits[chosenPitIndex].capacity).isEqualTo(0)
 
-        assertSoftly { softly ->
-            repeat(numberOfStones){ i ->
-                softly.assertThat(player1.smallPits[chosenPitIndex + i].capacity).isEqualTo(oldStateOfSmallPits[chosenPitIndex + i].capacity + 1)
-            }
+        repeat(numberOfStones){ i ->
+            val newPit = currentPit.next
+            val oldPit = oldStateOfCurrentPit.next
+            assertThat(newPit.capacity).isEqualTo(oldPit.capacity + 1)
+            currentPit = newPit
+            oldStateOfCurrentPit = oldPit
         }
-
-        assertThat(player1.largePit.capacity).isEqualTo(oldStateOfLargePit.capacity + 1)
     }
 }
