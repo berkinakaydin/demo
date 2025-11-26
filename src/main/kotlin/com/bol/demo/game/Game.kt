@@ -1,21 +1,24 @@
 package com.bol.demo.game
 
 class Game {
-    val players = listOf(Player(1), Player(2))
+    val player1 = Player(1)
+    val player2 = Player(2)
+    val players = listOf(player1, player2)
 
-    private var currentPlayer = players[0]
+    private var currentPlayer = player1
 
     init {
         setUp()
     }
 
     fun setUp() {
-        players[0].connectToOpponent(players[1])
-        players[1].connectToOpponent(players[0])
+        player1.connectToOpponent(player2)
+        player2.connectToOpponent(player1)
     }
 
-
     fun makeMove(pitIndex: Int){
+        val opponent = if (currentPlayer == player1) player2 else player1
+
         var currentPit = currentPlayer.smallPits[pitIndex]
         var numberOfStones = currentPit.capacity
 
@@ -28,7 +31,13 @@ class Game {
 
         //move
         while (numberOfStones > 0){
-            val nextPit = currentPit.next
+            var nextPit = currentPit.next
+
+            // Skip opponent's large pit
+            if (nextPit == opponent.largePit) {
+                nextPit = nextPit.next
+            }
+
             nextPit.capacity += 1
 
             numberOfStones--

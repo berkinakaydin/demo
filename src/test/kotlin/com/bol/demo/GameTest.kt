@@ -5,13 +5,12 @@ import com.bol.demo.game.Player
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.SoftAssertions.assertSoftly
 import org.junit.Test
-import java.util.Collections.copy
 import kotlin.test.assertNotNull
 
 class GameTest {
     private val game: Game = Game()
-    private val player1: Player = game.players[0]
-    private val player2: Player = game.players[1]
+    private val player1: Player = game.player1
+    private val player2: Player = game.player2
 
     @Test
     fun `a game should contain two players`() {
@@ -81,12 +80,12 @@ class GameTest {
     @Test
     fun `while sowing the stones, stone should not be placed in opponents large pit`(){
         val chosenPitIndex = 0
-        var currentPit = player1.smallPits[chosenPitIndex]
-        currentPit.capacity = 13
+        val currentPit = player1.smallPits[chosenPitIndex]
+        currentPit.capacity = 13 //when it is at least 13, that means opponent's pits get stones
 
-        val currentStateOfOpponent = player2.copy()
+        val oldStateOfOpponentPlayer = player2.copy()
 
         game.makeMove(chosenPitIndex)
-        assertThat(player2.largePit.capacity).isEqualTo(currentStateOfOpponent.largePit.capacity)
+        assertThat(player2.largePit.capacity).isEqualTo(oldStateOfOpponentPlayer.largePit.capacity)
     }
 }
