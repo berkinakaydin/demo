@@ -116,5 +116,16 @@ class GameTest {
 
             assertThat(currentPit.capacity).isEqualTo(2)
         }
+
+        @Test
+        fun `if players last stone lands not in own big pit, then opponent gets the turn`(){
+            val chosenPitIndex = 0
+            val currentPit = player1.smallPits[chosenPitIndex]
+
+            currentPit.capacity = 5
+            game.makeMove(chosenPitIndex)
+
+            assertThat(game.currentPlayer).isEqualTo(player2)
+        }
     }
 }
