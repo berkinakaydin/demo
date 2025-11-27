@@ -209,7 +209,7 @@ class GameTest {
     }
 
     @Nested
-    @DisplayName("End Game Scenarios")
+    @DisplayName("End Game")
     inner class EndGameTests{
         @Test
         fun `end game`() {
