@@ -138,5 +138,27 @@ class GameTest {
 
             assertThat(game.currentPlayer).isEqualTo(game.currentPlayer)
         }
+
+        @Test
+        fun `if players last stone lands in own small pit, player captures stones from the opposite pit`(){
+            // given
+            val chosenPitIndex = 0
+            val currentPit = player1.smallPits[chosenPitIndex]
+            currentPit.capacity = 1
+
+            val opponentsPit = player2.smallPits[6 - (chosenPitIndex + currentPit.capacity) - 1]
+            val opponentsPitCapacity = opponentsPit.capacity
+
+            // when
+            val emptyPit = player1.smallPits[chosenPitIndex + currentPit.capacity]
+            emptyPit.capacity = 0
+
+            game.play(chosenPitIndex)
+
+            // then
+            assertThat(game.player1.largePit.capacity).isEqualTo(opponentsPitCapacity + 1)
+            assertThat(opponentsPit.capacity).isEqualTo(0)
+            assertThat(emptyPit.capacity).isEqualTo(0)
+        }
     }
 }
