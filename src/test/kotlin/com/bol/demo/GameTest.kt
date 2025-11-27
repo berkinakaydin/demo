@@ -82,7 +82,7 @@ class GameTest {
             val oldStateOfPlayer = player1.copy()
             var oldStateOfCurrentPit = oldStateOfPlayer.smallPits[chosenPitIndex]
 
-            game.makeMove(chosenPitIndex)
+            game.play(chosenPitIndex)
             assertThat(player1.smallPits[chosenPitIndex].capacity).isEqualTo(0)
 
             repeat(numberOfStones) {
@@ -102,7 +102,7 @@ class GameTest {
 
             val oldStateOfOpponentPlayer = player2.copy()
 
-            game.makeMove(chosenPitIndex)
+            game.play(chosenPitIndex)
             assertThat(player2.largePit.capacity).isEqualTo(oldStateOfOpponentPlayer.largePit.capacity)
         }
 
@@ -112,7 +112,7 @@ class GameTest {
             val currentPit = player1.smallPits[chosenPitIndex]
             currentPit.capacity = 36 //when it is at least 18, that means opponent's pits get stones
 
-            game.makeMove(chosenPitIndex)
+            game.play(chosenPitIndex)
 
             assertThat(currentPit.capacity).isEqualTo(2)
         }
@@ -123,7 +123,7 @@ class GameTest {
             val currentPit = player1.smallPits[chosenPitIndex]
 
             currentPit.capacity = 5
-            game.makeMove(chosenPitIndex)
+            game.play(chosenPitIndex)
 
             assertThat(game.currentPlayer).isEqualTo(player2)
         }

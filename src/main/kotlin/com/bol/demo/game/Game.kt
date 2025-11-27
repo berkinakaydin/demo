@@ -5,7 +5,7 @@ class Game {
     val player2 = Player(2)
     val players = listOf(player1, player2)
 
-    private var currentPlayer = player1
+    var currentPlayer = player1
 
     init {
         setUp()
@@ -16,18 +16,21 @@ class Game {
         player2.connectToOpponent(player1)
     }
 
-    fun makeMove(pitIndex: Int){
+    fun play(pitIndex: Int){
+        val currentPit = makeMove(pitIndex)
+
+        if (currentPit != currentPlayer.largePit){
+            changePlayer()
+        }
+    }
+
+    fun makeMove(pitIndex: Int): Pit{
         val opponent = if (currentPlayer == player1) player2 else player1
 
         var currentPit = currentPlayer.smallPits[pitIndex]
         var numberOfStones = currentPit.capacity
 
         currentPit.capacity = 0
-
-        //validate
-        if (numberOfStones < 1){
-            return
-        }
 
         //move
         while (numberOfStones > 0){
@@ -44,6 +47,11 @@ class Game {
             currentPit = nextPit
         }
 
-        //deal switch player
+        return currentPit
+    }
+
+    fun changePlayer(){
+        val opponent = if (currentPlayer == player1) player2 else player1
+        currentPlayer = opponent
     }
 }
