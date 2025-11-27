@@ -42,6 +42,7 @@ class Game {
     }
 
     fun makeMove(pitIndex: Int): Pit {
+        validateInput(pitIndex)
         var currentPit = currentPlayer.smallPits[pitIndex]
         var numberOfStones = currentPit.capacity
 
@@ -76,14 +77,23 @@ class Game {
         return currentPit
     }
 
-    fun changePlayer() {
+    private fun validateInput(pitIndex: Int){
+        require(pitIndex in 0..5){
+            "Invalid pit index"
+        }
+        require(currentPlayer.smallPits[pitIndex].capacity > 0){
+            "Pit is empty"
+        }
+    }
+
+    private fun changePlayer() {
         val opponent = if (currentPlayer == player1) player2 else player1
         val tempPlayer = currentPlayer
         currentPlayer = opponent
         this.opponent = tempPlayer
     }
 
-    fun checkEndGame() : Boolean {
+    private fun checkEndGame() : Boolean {
         if (currentPlayer.smallPits.all { it.capacity == 0 }) {
             opponent.largePit.capacity += opponent.smallPits.sumOf { it.capacity }
             opponent.smallPits.map { it.capacity = 0 }
