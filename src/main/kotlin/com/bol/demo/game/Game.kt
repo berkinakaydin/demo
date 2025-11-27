@@ -16,15 +16,15 @@ class Game {
         player2.connectToOpponent(player1)
     }
 
-    fun play(pitIndex: Int){
+    fun play(pitIndex: Int) {
         val currentPit = makeMove(pitIndex)
 
-        if (currentPit != currentPlayer.largePit){
+        if (currentPit != currentPlayer.largePit) {
             changePlayer()
         }
     }
 
-    fun makeMove(pitIndex: Int): Pit{
+    fun makeMove(pitIndex: Int): Pit {
         val opponent = if (currentPlayer == player1) player2 else player1
 
         var currentPit = currentPlayer.smallPits[pitIndex]
@@ -33,7 +33,7 @@ class Game {
         currentPit.capacity = 0
 
         //move
-        while (numberOfStones > 0){
+        while (numberOfStones > 0) {
             var nextPit = currentPit.next
 
             // Skip opponent's large pit
@@ -47,10 +47,21 @@ class Game {
             currentPit = nextPit
         }
 
+        // capture
+        if (currentPit.capacity == 1 && currentPit in currentPlayer.smallPits) {
+            val indexOfCurrentPit = currentPlayer.smallPits.indexOf(currentPit)
+
+            val opponentsPit = opponent.smallPits[6 - indexOfCurrentPit - 1]
+            currentPlayer.largePit.capacity += opponentsPit.capacity + 1
+
+            currentPit.capacity = 0
+            opponentsPit.capacity = 0
+        }
+
         return currentPit
     }
 
-    fun changePlayer(){
+    fun changePlayer() {
         val opponent = if (currentPlayer == player1) player2 else player1
         currentPlayer = opponent
     }
