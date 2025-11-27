@@ -22,9 +22,17 @@ class Game {
     fun play(pitIndex: Int) {
         val currentPit = makeMove(pitIndex)
 
-        checkEndGame()
+        val isFinished = checkEndGame()
 
-        if (winner != null){
+        if (isFinished){
+            winner = if (currentPlayer.largePit.capacity > opponent.largePit.capacity) {
+                currentPlayer
+            } else if(currentPlayer.largePit.capacity < opponent.largePit.capacity) {
+                opponent
+            } else{
+                null
+            }
+
             return
         }
 
@@ -75,16 +83,13 @@ class Game {
         this.opponent = tempPlayer
     }
 
-    fun checkEndGame() {
+    fun checkEndGame() : Boolean {
         if (currentPlayer.smallPits.all { it.capacity == 0 }) {
             opponent.largePit.capacity += opponent.smallPits.sumOf { it.capacity }
             opponent.smallPits.map { it.capacity = 0 }
 
-            winner = if (currentPlayer.largePit.capacity > opponent.largePit.capacity) {
-                currentPlayer
-            } else {
-                opponent
-            }
+            return true
         }
+        return false
     }
 }
