@@ -25,16 +25,16 @@ class Game {
 
         isFinished = checkEndGame()
 
-        if (isFinished){
+        if (isFinished) {
             winner = if (currentPlayer.largePit.capacity > opponent.largePit.capacity) {
                 currentPlayer
-            } else if(currentPlayer.largePit.capacity < opponent.largePit.capacity) {
+            } else if (currentPlayer.largePit.capacity < opponent.largePit.capacity) {
                 opponent
-            } else{
+            } else {
                 null
             }
 
-            return when(winner){
+            return when (winner) {
                 player1 -> Result.PLAYER_1_WON
                 player2 -> Result.PLAYER_2_WON
                 else -> Result.TIE
@@ -84,15 +84,15 @@ class Game {
         return currentPit
     }
 
-    private fun validateInput(pitIndex: Int){
-        require(pitIndex in 0..5){
+    private fun validateInput(pitIndex: Int) {
+        require(pitIndex in 0..5) {
             "Invalid pit index"
         }
-        require(currentPlayer.smallPits[pitIndex].capacity > 0){
+        require(currentPlayer.smallPits[pitIndex].capacity > 0) {
             "Pit is empty"
         }
 
-        check(!isFinished){
+        check(!isFinished) {
             "Game is already over"
         }
     }
@@ -104,7 +104,7 @@ class Game {
         this.opponent = tempPlayer
     }
 
-    private fun checkEndGame() : Boolean {
+    private fun checkEndGame(): Boolean {
         if (currentPlayer.smallPits.all { it.capacity == 0 }) {
             opponent.largePit.capacity += opponent.smallPits.sumOf { it.capacity }
             opponent.smallPits.map { it.capacity = 0 }
@@ -114,7 +114,7 @@ class Game {
         return false
     }
 
-    enum class Result{
+    enum class Result {
         PLAYER_1_WON,
         PLAYER_2_WON,
         TIE

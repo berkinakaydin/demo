@@ -163,7 +163,7 @@ class GameTest {
         }
 
         @Test
-        fun `if player chooses an empty pit, then player wont move`(){
+        fun `if player chooses an empty pit, then player wont move`() {
             //given
             val chosenPitIndex = 0
             val currentPlayer = game.currentPlayer
@@ -180,7 +180,7 @@ class GameTest {
         }
 
         @Test
-        fun `if player chooses invalid pit, then player wont move`(){
+        fun `if player chooses invalid pit, then player wont move`() {
             //given
             val chosenPitIndex = 6
             val currentPlayer = game.currentPlayer
@@ -195,7 +195,7 @@ class GameTest {
         }
 
         @Test
-        fun `prevent player movement if game has a winner`(){
+        fun `prevent player movement if game has a winner`() {
             //given
             game.isFinished = true
 
@@ -210,7 +210,7 @@ class GameTest {
 
     @Nested
     @DisplayName("End Game")
-    inner class EndGameTests{
+    inner class EndGameTests {
         @Test
         fun `end game`() {
             //given
@@ -232,7 +232,7 @@ class GameTest {
         }
 
         @Test
-        fun `tie game when both players have equal scores`(){
+        fun `tie game when both players have equal scores`() {
             //given
             val chosenPitIndex = 5
             val currentPit = game.currentPlayer.smallPits[chosenPitIndex]
